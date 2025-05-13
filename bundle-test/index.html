@@ -1,17 +1,25 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <title>onRecords</title>
     <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+    <!-- Import json-viewer-js from CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/json-viewer-js@1.0.0/dist/json-viewer.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/json-viewer-js@1.0.0/dist/json-viewer.min.js"></script>
   </head>
   <body>
     <pre id="readout">Waiting for data...</pre>
+    
     <script>
       grist.ready();
       grist.onRecords(function(records) {
-        document.getElementById('readout').innerHTML = JSON.stringify(records, null, 2);
+        const readout = document.getElementById('readout');
+        readout.innerHTML = ""; // Clear previous content
+        // Render JSON using json-viewer-js
+        const viewer = new JSONViewer();
+        readout.appendChild(viewer.getContainer());
+        viewer.showJSON(records, null, 2);
       });
     </script>
   </body>
