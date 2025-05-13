@@ -1,26 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <title>onRecords</title>
     <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
-    <!-- Import json-viewer-js from CDN -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/json-viewer-js@1.0.0/dist/json-viewer.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/json-viewer-js@1.0.0/dist/json-viewer.min.js"></script>
-  </head>
-  <body>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/json-viewer-js@1.0.8/src/style.min.css">
+</head>
+
+<body>
     <pre id="readout">Waiting for data...</pre>
-    
-    <script>
-      grist.ready();
-      grist.onRecords(function(records) {
-        const readout = document.getElementById('readout');
-        readout.innerHTML = ""; // Clear previous content
-        // Render JSON using json-viewer-js
-        const viewer = new JSONViewer();
-        readout.appendChild(viewer.getContainer());
-        viewer.showJSON(records, null, 2);
-      });
+
+    <script type="module">
+        import jsonViewerJs from 'https://cdn.jsdelivr.net/npm/json-viewer-js@1.0.8/+esm';
+
+        grist.ready();
+        grist.onRecords(function (records) {
+            const readout = document.getElementById('readout');
+            readout.innerHTML = ""; // Clear previous content
+
+            const viewer = new jsonViewerJs({
+                container: readout,
+                data: JSON.stringify(records, null, 2),
+                theme: 'light',
+                expand: false
+            });
+        });
     </script>
-  </body>
+</body>
+
 </html>
